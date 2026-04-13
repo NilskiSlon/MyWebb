@@ -31,9 +31,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
 
+  res.headers.set('x-pathname', req.nextUrl.pathname)
   return res
 }
 
 export const config = {
-  matcher: ['/portal/:path*'],
+  matcher: ['/portal/:path*', '/admin/:path*'],
 }
