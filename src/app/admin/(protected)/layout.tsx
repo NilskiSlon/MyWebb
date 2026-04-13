@@ -1,4 +1,4 @@
-import { cookies, headers } from 'next/headers'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 
@@ -14,11 +14,10 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [cookieStore, headersList] = await Promise.all([cookies(), headers()])
+  const cookieStore = await cookies()
   const auth = cookieStore.get('admin_auth')
-  const pathname = headersList.get('x-pathname') ?? ''
 
-  if (!pathname.startsWith('/admin/login') && auth?.value !== process.env.ADMIN_SECRET) {
+  if (auth?.value !== process.env.ADMIN_SECRET) {
     redirect('/admin/login')
   }
 
